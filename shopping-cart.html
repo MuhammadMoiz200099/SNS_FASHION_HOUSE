@@ -189,19 +189,19 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="cart-table">
-              <table>
+              <table class="table table-hover table-condensed">
                 <thead>
                   <tr>
                     <th>Image</th>
-                    <th class="p-name">Product Name</th>
+                    <th >Product Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total</th>
                     <th><i class="ti-close"></i></th>
                   </tr>
                 </thead>
-                <tbody>
-                  
+                <tbody id="CartTableBody" >
+
                 </tbody>
               </table>
             </div>
@@ -211,7 +211,7 @@
                   <a href="#" class="primary-btn continue-shop"
                     >Continue shopping</a
                   >
-                  <a href="#" class="primary-btn up-cart">Update cart</a>
+                  <a href="#" onclick="updateCart()" class="primary-btn up-cart">Update cart</a>
                 </div>
                 <div class="discount-coupon">
                   <h6>Discount Codes</h6>
@@ -226,8 +226,8 @@
               <div class="col-lg-4 offset-lg-4">
                 <div class="proceed-checkout">
                   <ul>
-                    <li class="subtotal">Subtotal <span>$00.00</span></li>
-                    <li class="cart-total">Total <span>$00.00</span></li>
+                    <li class="subtotal">Subtotal <span id="cartSTotal"></span></li>
+                    <li class="cart-total">Total <span id="cartPTotal"></span></li>
                   </ul>
                   <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
                 </div>
@@ -368,6 +368,9 @@
     </footer>
     <!-- Footer Section End -->
 
+    <!-- snack bar -->
+    <div id="snackbar"></div>
+
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -379,5 +382,6 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/shopping-cart.js"></script>
   </body>
 </html>

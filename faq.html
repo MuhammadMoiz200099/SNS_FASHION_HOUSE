@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script async src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
 </head>
 
 <body>
@@ -46,7 +47,7 @@
                     </div>
                 </div>
                 <div class="ht-right">
-                    <a href="./login.html" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                    <a href="./login.html" class="login-panel" id="user-login-name"></a>
                     <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
                             <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
@@ -362,6 +363,7 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="./js/currentUser.js"></script>
 </body>
 
 </html>

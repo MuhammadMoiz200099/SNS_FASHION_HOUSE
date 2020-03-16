@@ -41,8 +41,7 @@ const AddItemToShoppingCart = () => {
       localStorage.setItem("snsShoppingCart", JSON.stringify(allitems));
     }
 
-    $("#snackbar")[0].innerHTML = "Product Added Successfully"+`<i class="ti-close" style="font-size: 12px;margin-left:15px" onclick="closeSnackBar()"></i>`;
-    snackBar();
+    snackBar("Product Added Successfully");
   });
 };
 
@@ -121,8 +120,9 @@ const UpdateItem = () => {
           itemId.quantity = $(this)[0].value;
         }
       }
-      localStorage.setItem("snsShoppingCart", JSON.stringify(allitems));
     }
+    localStorage.setItem("snsShoppingCart", JSON.stringify(allitems));
+    RealtimeCart();
   });
 };
 
@@ -139,23 +139,78 @@ const DeleteItem = id => {
   }
 
   localStorage.setItem("snsShoppingCart", JSON.stringify(allitems));
-
-  $("#snackbar")[0].innerHTML = "Product Deleted Successfully"+`<i class="ti-close" style="font-size: 12px;margin-left:15px" onclick="closeSnackBar()"></i>`;
-
-  snackBar();
+  RealtimeCart();
+  snackBar("Product Deleted Successfully");
 };
+
+
+const RealtimeCart = () => {
+  let totalCartPrice = "Rs. 00";
+  let subtotal = 0;
+  let total = 0;
+
+  let allitems = JSON.parse(localStorage.getItem("snsShoppingCart")) || [];
+
+  let cartData = ``;
+
+  for (var itemId of allitems) {
+    cartData += `
+        <tr>
+            <td class="cart-pic first-row">
+                <img src="${itemId.img}" alt="" />
+            </td>
+            <td class="cart-title first-row">
+                <h5>${itemId.title}</h5>
+            </td>
+            <td class="p-price first-row">${itemId.price}</td>
+            <td class="qua-col first-row">
+                <div class="quantity">
+                    <div class="pro-qty">
+                        <b style = "display: none;">${itemId.id}</b>
+                        <input type="number" value="${
+                          itemId.quantity
+                        }" style="margin-top: -6px;" class="QuantityUpdate" />
+                    </div>
+                </div>
+            </td>
+            <td class="total-price first-row">${itemId.quantity *
+              parseInt(itemId.price)}</td>
+            <td class="close-td first-row"><i class="ti-close" onclick="DeleteItem(${
+              itemId.id
+            })"></i></td>
+        </tr>
+        `;
+
+    subtotal += parseInt(itemId.price);
+    total += itemId.quantity * parseInt(itemId.price);
+  }
+
+  if (subtotal != 0 || total != 0) {
+    $("#cartSTotal").html("Rs. " + subtotal);
+    $("#cartPTotal").html("Rs. " + total);
+  } else {
+    $("#cartSTotal").html(totalCartPrice);
+    $("#cartPTotal").html(totalCartPrice);
+  }
+
+  $("#CartTableBody").html(cartData);
+};
+
+
 
 /*-------------------
 	snackBar
 --------------------- */
 
-const snackBar = () => {
+const snackBar = (msg) => {
+  $("#snackbar")[0].innerHTML = msg + `<i class="ti-close" style="font-size: 12px;margin-left:15px" onclick="closeSnackBar()"></i>`;
   var x = document.getElementById("snackbar");
   x.className = "show";
   setTimeout(function() {
     x.className = x.className.replace("show", "");
-  }, 3000);
+  }, 600);
 }
+
 
 const closeSnackBar = () => {
     var x = document.getElementById("snackbar");
@@ -165,3 +220,28 @@ const closeSnackBar = () => {
 const updateCart = () => {
     window.location.reload();
 }
+
+
+/*-------------------
+	Checkout
+--------------------- */
+
+const checkoutProducts = () => {
+
+  let checkoutData = ``;
+  let totalPrice = 0;
+  checkoutData += '<li>Product <span>Total</span></li>'
+  
+  let allitems = JSON.parse(localStorage.getItem("snsShoppingCart")) || [];
+  
+  for (var item of allitems) {
+    checkoutData += `<li class="fw-normal">${item.title} x ${item.quantity} <span>Rs. ${item.price}</span></li>`;
+    totalPrice += (item.quantity * item.price);
+  }
+  
+  checkoutData += `<li class="total-price">Total <span>Rs. ${totalPrice}</span></li>`
+
+  $('#checkout-order-table').append(checkoutData)
+}
+
+checkoutProducts();
